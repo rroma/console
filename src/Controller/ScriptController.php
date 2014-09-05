@@ -159,4 +159,14 @@ class ScriptController
         );
         return new JsonResponse($result);
     }
+    
+    public function savedList(Application $app)
+    {
+        $manager = $app['dba.script_manager'];
+        $scripts = $manager->fetchAll();
+
+        return $app['twig']->render('savedList.html.twig', array(
+            'scripts' => $scripts,
+        ));
+    }
 }

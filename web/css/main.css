@@ -4,7 +4,12 @@
 }
 html{ 
     font-family: "Trebuchet MS";
-    font-size: 13px;
+}
+.fs12{
+    font-size: 12px;
+}
+.fs11{
+    font-size: 12px;
 }
 .hidden{
     display: none;
@@ -24,7 +29,6 @@ div#main .CodeMirror{
     cursor: default;
     height: 300px;
     font-size: 12px;
-    /*line-height: 2em;*/
     font-weight: normal;
     font-family: "Courier New"
 }
@@ -58,31 +62,23 @@ div#main .CodeMirror{
     display: table-cell;
     width: 230px;
     background-color: #fff;
-    overflow-x: hidden;
-    overflow-y: scroll;
 }
 .editor .saved ul{
     list-style: none;
+    height: 300px;
+    overflow-x: hidden;
+    overflow-y: scroll;    
 }
 .editor .saved ul>li{
-    color: #777;
-    padding: 0 10px;
+    color: #333;
     cursor: pointer;
-    padding: 0 7px 4px;
 }
 .editor .saved ul>li:hover{
-    background-color: rgb(77, 61, 77);
-    color: #bab;
+    background-color: rgb(187, 175, 187);
+    color: #fff;
 }
 ul>li .sc-name{
     padding: 5px 10px 2px;
-    font-weight: bold;
-}
-.sc-name-edit{
-    color: #111 !important;
-    background-color: #fff !important;
-    box-shadow: 0 0 4px rgba(0, 0, 0, 0.2) inset;
-    border: 1px solid #999;
 }
 .v-resize{
     height: 7px;

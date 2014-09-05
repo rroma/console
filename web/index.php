@@ -38,5 +38,6 @@ $app->post('/script/execute', 'Controller\\ScriptController::execute');
 $app->post('/script/save', 'Controller\\ScriptController::save');
 $app->post('/script/rename', 'Controller\\ScriptController::rename');
 $app->match('/script/{key}/json', 'Controller\\ScriptController::scriptJson');
+$app->match('/script/saved-list', 'Controller\\ScriptController::savedList');
 
 $app->run();

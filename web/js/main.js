@@ -2,20 +2,42 @@ CM = Array();
 openedHist = Array();
 vResizeDrag = false;
 hResizeDrag = false;
+pX = 0;
+pY = 0;
 
 
 $(function(){
-    $('.v-resize').mousedown(function(){
+    $('.v-resize').mousedown(function(e){
         vResizeDrag = true;
-    };
-
-    $('.hr-resize').mousedown(function(){
-        hResizeDrag = true;
-    };
-    $(document).mousemove(function(e){
-        
+        pY = e.pageY;
     });
-
+    $('.hr-resize').mousedown(function(e){
+        hResizeDrag = true;
+        pX = e.pageX;
+    });
+    $(document).mousemove(function(e){
+        if(hResizeDrag){
+            var dX = pX - e.pageX;
+            var width = parseInt($('.saved').css('width'));
+            width += dX;
+            $('.saved').css('width', width + 'px');
+            pX = e.pageX;
+        }
+        if(vResizeDrag){
+            var dY = e.pageY - pY;
+            var height = parseInt($('.CodeMirror').css('height'));
+            height += dY;
+            $('.CodeMirror').css('height', height + 'px');
+            $('.saved ul').css('height', height + 'px');
+            pY = e.pageY;
+            for(i in CM)
+                CM[i].refresh();
+        }
+    });
+    $(document).mouseup(function(){
+        vResizeDrag = false;
+        hResizeDrag = false;
+    });
     $.fn.serializeObject = function()
     {
        var o = {};
@@ -42,8 +64,6 @@ $(function(){
         addTab(data);
         selectTab(scriptIdx);
         scriptIdx++;
-	e.stopPropogation();
-        return false;
     });
 
     $('.wrap').on('dblclick', '.tab-head', function(e){
@@ -69,7 +89,7 @@ $(function(){
         makeEditable(this);
     });
     
-    $('div.saved li.el-name').on('click', 'span', function(){
+    $('div.saved').on('click', 'span', function(){
         key = $(this).data('key');
         keyInp = $('.db-key[value=' + key + ']');
         if(keyInp.length > 0){
@@ -159,7 +179,6 @@ $(function(){
         var name = selectedTab.find('.tab-text').text();
         selectedTab.find('input[type=hidden]').val(name);
         subformIdx = $('.tab-head.selected').attr('tabnum');
-        console.log(subformIdx);
         for (i in CM) {
             CM[i].save();
         }
@@ -186,6 +205,16 @@ $(function(){
                     setKey(i, data[i].dbkey);
                 }
                 btn.removeAttr('disabled');
+                $.ajax({
+                    url: '/script/saved-list',
+                    method: 'get',
+                    success: function(data){ 
+                        var names = $(data).find('li');
+                        if(names.length > 0){
+                            $('.saved ul').empty().append(names);
+                        }
+                    }
+                });
             }
         });
     });
@@ -215,10 +244,6 @@ function isScriptOpened(key){
     });
 
     return result;
-}
-
-function selectTabByDbKey(){
-    
 }
 
 function getOwnerFormId(elementName) {
@@ -303,16 +328,21 @@ function makeNonEditable(el){
 }
 
 function getNewName(){
-    var name = 'New script';
+    var base = 'New script';
+    var name = base;
     var max = 0;
-    $('.tab-text').each(function(){
-        var matches = $(this).text().match(/New script (\d+)/);
-        if(matches !== null){
-            var cur = parseInt(matches[1]);
-            max = cur > max ? cur : max;
-        }
+    var names = [];
+    $('.saved span').each(function(){
+        names.push($(this).text());
     });
-    name +=' ' + (max + 1);
+    $('.tab-text').each(function(){
+        names.push($(this).text());
+    });
+    var i = 1;
+    while(names.indexOf(name) != -1){
+        name = base + ' ' + i;
+        i++;
+    }
 
     return name;
 }
