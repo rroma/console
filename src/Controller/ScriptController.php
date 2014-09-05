@@ -35,6 +35,7 @@ class ScriptController
         $form = $app['form.factory']->create(new ScriptType(), $script);
         $form->bind($request);
         $code = $request->get('code');
+        $name = $request->get('name');
         
         $incPath = $app['params']['script.include_path'];
         $execPath = $app['params']['script.exec_path'];
@@ -56,7 +57,7 @@ class ScriptController
 
         $output = preg_replace(
             sprintf('@%s@', preg_quote(realpath($file))),
-            '"Test script"',
+            "«{$name}»",
             $output
         );
         
@@ -71,7 +72,7 @@ class ScriptController
         return new JsonResponse($result);
     }
     
-    public function formatMemory($mem, $dicimals = 0)
+    public function formatMemory($mem, $dicimals = 2)
     {
         $units = array('B', 'Kb', 'Mb', 'Gb', 'Tb'); 
         $bytes = max($mem, 0); 
@@ -79,12 +80,12 @@ class ScriptController
         $pow = min($pow, count($units) - 1); 
         $bytes /= pow(1024, $pow);
 
-        return number_format($bytes, $dicimals) . $units[$pow];
+        return number_format($bytes, $dicimals) . ' ' . $units[$pow];
     }
     
     public function formatTime($time, $dicimals = 6)
     {
-        return number_format($time, $dicimals) . 'sec';
+        return number_format($time, $dicimals) . ' sec';
     }
     
     public function save(Request $request, Application $app)

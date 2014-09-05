@@ -155,12 +155,16 @@ $(function(){
         for(var i in CM){
             CM[i].save();
         }
-        var inp = $('.tab-body.selected').find('.code-editor');
+        var code = $('.tab-body.selected .code-editor');
+        var name = $('.tab-head.selected .tab-text');
         $.ajax({
             url: action,
             dataType: 'json',
             method: 'post',
-            data: { code: inp.val() },
+            data: { 
+                code: code.val(),
+                name: name.text()
+            },
             success: function(data){ 
                 btn.removeAttr('disabled');
                 $('#output').empty().append(data.output);
