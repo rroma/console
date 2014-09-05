@@ -77,8 +77,7 @@ $(function(){
         makeNonEditable(this);
         
         var key = $('.tab-body.selected .code-edit');
-        //console.log(key);
-        if(key){//console.log(key);
+        if(key){
             var selectedTab = $('.tab-head.selected');
             var name = selectedTab.find('.tab-text').text();
             selectedTab.find('input[type=hidden]').val(name);
@@ -152,7 +151,6 @@ $(function(){
 
         var formData = {};
         formData = form.serializeObject();
-        //console.log(formData);
         var filtered = {};
         var regEx = new RegExp('^\\w+\\[\\w+\\]\\['+ subformIdx +'\\]');
         
@@ -209,7 +207,6 @@ $(function(){
     }
 
     function getOwnerFormId(elementName) {
-        //var reg = new RegExp('^'+ collectionFormName +'[' + collectionName + ']');
         var reg = new RegExp('');
         return elementName.match(/^\w+\[\w+\]\[(\d+)\]\[\w+\]/)[1];
     }
@@ -308,11 +305,11 @@ $(function(){
     }
 });
 
-function changeHeight(value)
+/*function changeHeight(value)
 {
     for(i = 0; i < CM.length; i++)
     {
         CM[i].setSize(null, value);
     }
-}
+}*/
 

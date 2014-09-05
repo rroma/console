@@ -53,6 +53,12 @@ class ScriptController
         
         $mem = (float)@file_get_contents($memPath);
         $time = (float)@file_get_contents($timePath);
+
+        $output = preg_replace(
+            sprintf('@%s@', preg_quote(realpath($file))),
+            '"Test script"',
+            $output
+        );
         
         $result = array(
             'output'    => $output,

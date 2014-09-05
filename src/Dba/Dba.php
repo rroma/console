@@ -81,7 +81,7 @@ class Dba implements \Iterator
         return dba_replace($key, $value, $this->db);
     }
   
- //####### Iterator methods ######### 
+ /* ####### Iterator methods ######### */ 
  
     public function rewind() {
         if (!$this->db) {
