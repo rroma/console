@@ -1,6 +1,21 @@
 CM = Array();
 openedHist = Array();
+vResizeDrag = false;
+hResizeDrag = false;
+
+
 $(function(){
+    $('.v-resize').mousedown(function(){
+        vResizeDrag = true;
+    };
+
+    $('.hr-resize').mousedown(function(){
+        hResizeDrag = true;
+    };
+    $(document).mousemove(function(e){
+        
+    });
+
     $.fn.serializeObject = function()
     {
        var o = {};
@@ -155,7 +170,6 @@ $(function(){
         var regEx = new RegExp('^\\w+\\[\\w+\\]\\['+ subformIdx +'\\]');
         
         for (var i in formData) {
-            //console.log(getOwnerSubformId(i.toString()));
             if(i.match(regEx)) {
                 filtered[i] = formData[i];
             }
@@ -175,135 +189,133 @@ $(function(){
             }
         });
     });
-    
-    function setKey(idx, key){
-        id = keyIdProto.replace('__idx__', idx);
-        $('#' + id).val(key);
-    }
-
-    function setCode(idx, code){
-        id = codeIdProto.replace('__idx__', idx);
-        $('#' + id).val(code);
-    }
-
-    function setName(idx, name){
-        id = nameIdProto.replace('__idx__', idx);
-        $('#' + id).val(name);
-    }
-    
-    function isScriptOpened(key){
-        var result = false;
-        $('.db-key').each(function(){
-            if(key == $(this).val()){
-                result = true;
-            }
-        });
-
-        return result;
-    }
-    
-    function selectTabByDbKey(){
-        
-    }
-
-    function getOwnerFormId(elementName) {
-        var reg = new RegExp('');
-        return elementName.match(/^\w+\[\w+\]\[(\d+)\]\[\w+\]/)[1];
-    }
-    
-    function createCM(elem){
-        return CodeMirror.fromTextArea(elem, {
-            lineNumbers: true,
-            matchBrackets: true,
-            mode: "application/x-httpd-php",
-            indentUnit: 4,
-            indentWithTabs: true,
-            enterMode: "keep",
-            tabMode: "shift",
-            theme: "ambiance"
-        });
-    }
-    
-    function addTab(data)
-    {
-        var newHead = tabHeadProto.replace(/__idx__/g, scriptIdx);
-        newHead = newHead.replace(/__text__/g, data.name);
-        newHead = $(newHead);
-        $('#tab-h-hold .wrap').append(newHead);
-        setName(scriptIdx, data.name);
-        newHead.attr('tabnum', scriptIdx);
-        newHead.find('.tab-text').dblclick(function(){
-            makeEditable(this);
-        });
-        newHead.find('.tab-text').blur(function(){
-            makeNonEditable(this);
-        });
-
-        var newBody = tabBodyProto.replace(/__idx__/g, scriptIdx);
-        newBody = $(newBody);
-        $('.cm-hold').append(newBody);
-        newBody.attr('tabnum', scriptIdx);
-
-        
-        newBody.find('.code-editor').val(data.code);
-        setKey(scriptIdx, data.key);
-        var editor = createCM(newBody.find('.code-editor').addClass('selected')[0]);
-        CM.push(editor);
-    }
-    
-    function selectTab(tabnum){
-        var prev = parseInt($('.tab-head.selected').attr('tabnum'));
-        i = openedHist.indexOf(prev);
-        if(i >= 0)
-            openedHist.splice(i, 1);
-        openedHist.push(prev);
-        
-        $('.tab-head').removeClass('selected');
-        $('.tab-body').removeClass('selected');
-        $('.tab-head[tabnum='+tabnum+']').addClass('selected');
-        $('.tab-body[tabnum='+tabnum+']').addClass('selected');
-        for(i in CM){
-            CM[i].refresh();
-        }
-        
-    }
-    
-    function closeTab(tabnum){
-        $('.tab-head[tabnum='+tabnum+']').remove();
-        $('.tab-body[tabnum='+tabnum+']').remove();
-        var prev = parseInt($('.tab-head.selected').attr('tabnum'));
-        i = openedHist.indexOf(parseInt(tabnum));
-        if(i >= 0)
-            openedHist.splice(i, 1);
-    }
-    
-    function makeEditable(el){
-        $(el).attr('contenteditable', 'true')
-        .addClass('edit')
-        .focus();
-    }
-    
-    function makeNonEditable(el){
-        $(el)
-        .attr('contenteditable', 'false')
-        .removeClass('edit');
-    }
-    
-    function getNewName(){
-        var name = 'New script';
-        var max = 0;
-        $('.tab-text').each(function(){
-            var matches = $(this).text().match(/New script (\d+)/);
-            if(matches !== null){
-                var cur = parseInt(matches[1]);
-                max = cur > max ? cur : max;
-            }
-        });
-        name +=' ' + (max + 1);
-        
-        return name;
-    }
 });
+
+function setKey(idx, key){
+    id = keyIdProto.replace('__idx__', idx);
+    $('#' + id).val(key);
+}
+
+function setCode(idx, code){
+    id = codeIdProto.replace('__idx__', idx);
+    $('#' + id).val(code);
+}
+
+function setName(idx, name){
+    id = nameIdProto.replace('__idx__', idx);
+    $('#' + id).val(name);
+}
+
+function isScriptOpened(key){
+    var result = false;
+    $('.db-key').each(function(){
+        if(key == $(this).val()){
+            result = true;
+        }
+    });
+
+    return result;
+}
+
+function selectTabByDbKey(){
+    
+}
+
+function getOwnerFormId(elementName) {
+    var reg = new RegExp('');
+    return elementName.match(/^\w+\[\w+\]\[(\d+)\]\[\w+\]/)[1];
+}
+
+function createCM(elem){
+    return CodeMirror.fromTextArea(elem, {
+        lineNumbers: true,
+        matchBrackets: true,
+        mode: "application/x-httpd-php",
+        indentUnit: 4,
+        indentWithTabs: true,
+        enterMode: "keep",
+        tabMode: "shift",
+        theme: "ambiance"
+    });
+}
+    
+function addTab(data){
+    var newHead = tabHeadProto.replace(/__idx__/g, scriptIdx);
+    newHead = newHead.replace(/__text__/g, data.name);
+    newHead = $(newHead);
+    $('#tab-h-hold .wrap').append(newHead);
+    setName(scriptIdx, data.name);
+    newHead.attr('tabnum', scriptIdx);
+    newHead.find('.tab-text').dblclick(function(){
+            makeEditable(this);
+    });
+    newHead.find('.tab-text').blur(function(){
+        makeNonEditable(this);
+    });
+
+    var newBody = tabBodyProto.replace(/__idx__/g, scriptIdx);
+    newBody = $(newBody);
+    $('.cm-hold').append(newBody);
+    newBody.attr('tabnum', scriptIdx);
+
+
+    newBody.find('.code-editor').val(data.code);
+    setKey(scriptIdx, data.key);
+    var editor = createCM(newBody.find('.code-editor').addClass('selected')[0]);
+    CM.push(editor);
+}
+
+function selectTab(tabnum){
+    var prev = parseInt($('.tab-head.selected').attr('tabnum'));
+    i = openedHist.indexOf(prev);
+    if(i >= 0)
+        openedHist.splice(i, 1);
+    openedHist.push(prev);
+
+    $('.tab-head').removeClass('selected');
+    $('.tab-body').removeClass('selected');
+    $('.tab-head[tabnum='+tabnum+']').addClass('selected');
+    $('.tab-body[tabnum='+tabnum+']').addClass('selected');
+    for(i in CM){
+        CM[i].refresh();
+    }
+}
+
+function closeTab(tabnum){
+    $('.tab-head[tabnum='+tabnum+']').remove();
+    $('.tab-body[tabnum='+tabnum+']').remove();
+    var prev = parseInt($('.tab-head.selected').attr('tabnum'));
+    i = openedHist.indexOf(parseInt(tabnum));
+    if(i >= 0)
+        openedHist.splice(i, 1);
+}
+
+function makeEditable(el){
+    $(el).attr('contenteditable', 'true')
+    .addClass('edit')
+    .focus();
+}
+
+function makeNonEditable(el){
+    $(el)
+    .attr('contenteditable', 'false')
+    .removeClass('edit');
+}
+
+function getNewName(){
+    var name = 'New script';
+    var max = 0;
+    $('.tab-text').each(function(){
+        var matches = $(this).text().match(/New script (\d+)/);
+        if(matches !== null){
+            var cur = parseInt(matches[1]);
+            max = cur > max ? cur : max;
+        }
+    });
+    name +=' ' + (max + 1);
+
+    return name;
+}
 
 /*function changeHeight(value)
 {
