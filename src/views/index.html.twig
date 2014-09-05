@@ -37,7 +37,7 @@
                 </div>
                 <div id="tab-h-hold" >
                 {% spaceless %}    
-                    <div class="wrap">
+                    <div class="wrap no-select">
                     {% for form in collectionForm.scripts %}
                         <div tabnum="{{ loop.index0 }}" class="tab-head {% if loop.first %} selected{% endif %}">
                             {{ form_widget(form.name) }}

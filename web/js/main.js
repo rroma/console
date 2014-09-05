@@ -18,7 +18,7 @@ $(function(){
        return o;
     };
 
-    $('#tab-h-hold .wrap').dblclick(function(){
+    $('#tab-h-hold .wrap').dblclick(function(e){
         var data = { 
             code: '<?php\n\n\n?>',
             name: getNewName(),
@@ -27,6 +27,8 @@ $(function(){
         addTab(data);
         selectTab(scriptIdx);
         scriptIdx++;
+	e.stopPropogation();
+        return false;
     });
 
     $('.wrap').on('dblclick', '.tab-head', function(e){

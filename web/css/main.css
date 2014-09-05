@@ -116,9 +116,17 @@ ul>li .sc-name{
 #tab-h-hold .wrap{
     border-top: 1px solid #fafafa;
 }
+.no-select{
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
 .tab-base{
     height: 7px;
-    border-top: 1px outset rgb(238, 238, 238);
+    border-top: 1px solid #fff;
     clear: both;
 }
 .tab-text.edit{
@@ -184,8 +192,4 @@ ul>li .sc-name{
 }
 .tab-body.selected{
     display: block;
-}
-.cnt-btn{
-    margin-right: 15px;
-    width: 50px;
 }

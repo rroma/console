@@ -7,14 +7,15 @@ $app = new Silex\Application();
 $app['debug'] = true;
 $app['params'] = require __DIR__.'/../config/config.php';
 
-/*$app['script_repository'] = $app->share(function ($app) {
-    $savePath = __DIR__.'/../'.$app['params']['script_save_path'];
-    
-    return new Model\ScriptRepository(
-            new \Symfony\Component\Finder\Finder(),
-            $savePath
-    );
-});*/
+$execPath = $app['params']['script.exec_path'];
+if (!file_exists($execPath)) {
+	mkdir($execPath);
+}
+$dbPath = $app['params']['script.db_path'];
+if (!file_exists($dbPath)) {
+	mkdir($dbPath);
+}
+
 $app['dba.factory'] = function ($app) {
     return new \Dba\DbaFactory($app['params']['db.store_paths']);
 };

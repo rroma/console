@@ -9,15 +9,15 @@
         "symfony/translation": "~2.3"
     },
     "authors": [
-		{
-	        "name": "Romanov Roman",
-                "email": "r.romanov.mail@yandex.ru"
-		}
-	],
+        {
+            "name": "Romanov Roman",
+            "email": "r.romanov.mail@yandex.ru"
+        }
+    ],
     "license": "MIT",
     "autoload": {
-  	 	"psr-0": {
-  	     	"": "src/"
-  	     }
- 	 }
+        "psr-0": {
+            "": "src/"
+        }
+    }
 }
