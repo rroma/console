@@ -1,0 +1,5 @@
+/vendor
+/data
+/config/config.php
+/exec
+composer.lock

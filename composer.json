@@ -1,0 +1,23 @@
+{
+    "require": {
+        "silex/silex": "~1.2",
+        "twig/twig": ">=1.8,<2.0-dev",
+        "symfony/form": "~2.3",
+        "symfony/twig-bridge": "~2.3",
+        "phpunit/phpunit": "4.2.*",
+        "symfony/serializer": "2.5.*",
+        "symfony/translation": "~2.3"
+    },
+    "authors": [
+		{
+	        "name": "Romanov Roman",
+                "email": "r.romanov.mail@yandex.ru"
+		}
+	],
+    "license": "MIT",
+    "autoload": {
+  	 	"psr-0": {
+  	     	"": "src/"
+  	     }
+ 	 }
+}
