@@ -7,11 +7,11 @@ hResizeDrag = false;
 $(function(){
     $('.v-resize').mousedown(function(){
         vResizeDrag = true;
-    };
+    });
 
     $('.hr-resize').mousedown(function(){
         hResizeDrag = true;
-    };
+    });
     $(document).mousemove(function(e){
         
     });
@@ -122,7 +122,7 @@ $(function(){
     });
 
     $('.code-editor').each(function(){
-        var editor = createCM(this);        
+        var editor = createCM(this);     
         CM.push(editor);
     });
 
