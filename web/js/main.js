@@ -142,7 +142,7 @@ $(function(){
     });
 
     $('.code-editor').each(function(){
-        var editor = createCM(this);        
+        var editor = createCM(this);     
         CM.push(editor);
     });
 
