@@ -3,3 +3,4 @@
 /config/config.php
 /exec
 composer.lock
+/nbproject/private/

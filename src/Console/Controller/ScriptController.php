@@ -1,19 +1,94 @@
 <?php
 
-namespace Controller;
+namespace Console\Controller;
 
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\JsonResponse;
+use Console\Controller\Model\ScriptListResponse;
+use Console\Manager\ScriptManager;
+use Console\Model\Script;
 use Silex\Application;
-use Form\ScriptType;
-use Model\Script;
-use Dba\DbaObjectManager;
-use Form\ScriptCollectionType;
-use Form\Model\ScriptCollection;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Serializer\Serializer;
 
 class ScriptController
 {
-    public function index(Application $app)
+    public function listAll(Request $request, Application $app)
+    {
+        /** @var ScriptManager $manager */
+        $manager = $app['script_manager'];
+
+        /** @var Serializer $serializer */
+        $serializer = $app['serializer'];
+
+        $scripts = $manager->findAll();
+
+        $response = new Response(
+            $serializer->serialize(
+                new ScriptListResponse($scripts),
+                'json'
+            )
+        );
+
+        $response->headers->set('Content-Type', 'application/json');
+
+        return $response;
+    }
+
+    public function edit(Request $request, Application $app)
+    {
+        $scriptJson = $request->get('script');
+
+        if (!$scriptJson) {
+            throw new \Exception('Parameter "script" is missing');
+        }
+
+        /** @var ScriptManager $manager */
+        $manager = $app['script_manager'];
+
+        /** @var Serializer $serializer */
+        $serializer = $app['serializer'];
+
+        /** @var Script $script */
+        $script = $serializer->deserialize(
+            $scriptJson,
+            get_class(new Script()),
+            'json'
+        );
+
+        $errors = [];
+        $successCode = 200;
+        if (!$manager->findByName($script->getName())) {
+            $successCode = 201;
+        }
+
+        if (!$manager->save($script)) {
+            $errors[] = "Unable to save script {$script->getName()}";
+        }
+
+        $statusCode = $errors ? 400 : $successCode;
+
+        return $this->editResponse($errors, $statusCode);
+    }
+
+    private function editResponse($errors, $code = null)
+    {
+        if (!$code) {
+            $code = $errors ? 400 : 200;
+        }
+
+        $response = new Response();
+        $response->setStatusCode($code);
+        $response->headers->set('Content-Type', 'application/json');
+        $content = ['success' => !$errors];
+        if ($errors) {
+            $content['errors'] = $errors;
+        }
+        $response->setContent(json_encode($content));
+
+        return $response;
+    }
+
+    /*public function index(Application $app)
     {
         $manager = $app['dba.script_manager'];
         $scripts = $manager->fetchAll();
@@ -169,5 +244,5 @@ class ScriptController
         return $app['twig']->render('savedList.html.twig', array(
             'scripts' => $scripts,
         ));
-    }
+    }*/
 }

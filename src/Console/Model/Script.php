@@ -1,10 +1,8 @@
 <?php
 
-namespace Model;
+namespace Console\Model;
 
-use Dba\DbaEntity;
-
-class Script extends DbaEntity
+class Script
 {
     protected $name;
     protected $code;
@@ -14,13 +12,7 @@ class Script extends DbaEntity
         $this->name = $name;
         $this->code = $code;
     }
-    
-    public function uniqueFields() {
-        return array(
-            'name'
-        );
-    }
-    
+
     public function getName()
     {
         return $this->name;
@@ -34,6 +26,7 @@ class Script extends DbaEntity
     public function setName($name)
     {
         $this->name = $name;
+
         return $this;
     }
 
