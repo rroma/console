@@ -11,5 +11,9 @@ $app['script_manager'] = function () use ($scriptPath) {
 };
 
 // Routing
-$app->match('/scripts', 'Console\\Controller\\ScriptController::listAll');
-$app->match('/scripts/edit', 'Console\\Controller\\ScriptController::edit');
+$app->match('/scripts', 'Console\\Controller\\ScriptController::listAll')
+    ->method('GET');
+$app->match('/scripts', 'Console\\Controller\\ScriptController::edit')
+    ->method('POST');
+$app->match('scripts/execute', 'Console\\Controller\\ScriptController::execute')
+    ->method('POST');

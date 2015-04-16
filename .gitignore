@@ -1,6 +1,4 @@
 /vendor
 /data
-/config/config.php
-/exec
+/bin
 composer.lock
-/nbproject/private/
