@@ -95,7 +95,7 @@ class ScriptController
         if ($errors) {
             $content['errors'] = $errors;
         }
-        $response->setContent($content);
+        $response->setContent(json_encode($content));
 
         return $response;
     }

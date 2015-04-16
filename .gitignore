@@ -1,3 +1,4 @@
 /vendor
 /data
 /bin
+composer.lock
