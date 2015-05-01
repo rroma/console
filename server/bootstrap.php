@@ -24,7 +24,7 @@ set_error_handler("handle_error");
 
 define('CONSOLE_SCRIPTS', __DIR__.'/../scripts/scripts.json');
 define('CONSOLE_PROLOGUE', __DIR__.'/include/prologue');
-define('CONSOLE_EPILOGUE', __DIR__.'/include/epilogue5');
+define('CONSOLE_EPILOGUE', __DIR__.'/include/epilogue');
 define('CONSOLE_EXEC_CODE', __DIR__.'/exec/code.php');
 define('CONSOLE_EXEC_MEM', __DIR__.'/exec/mem');
 define('CONSOLE_EXEC_TIME', __DIR__.'/exec/time');
