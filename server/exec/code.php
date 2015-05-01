@@ -1,1 +1,0 @@
-<?php $start = microtime(1); ?><?php echo'zalupa'; ?>
