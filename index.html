@@ -8,10 +8,32 @@
     <script src="public/js/controllers.js"></script>
 </head>
 <body>
-<div ng-controller="ScriptListCtrl">
-    <ul ng-repeat="script in scripts">
-        <li>{{script.name }}: {{ script.code }}</li>
-    </ul>
-</div>
+    <div id="main" ng-controller="ScriptListCtrl">
+        <div id="top-panel">
+            <input type="button" value="Execute"></button>
+        </div>
+        <div id="tab-head-panel">
+            <ul id="tabs" ng-dblclick="newScriptWithTab()">
+                <li ng-repeat="tab in tabs" ng-click="selectTab(tab)" ng-class="{active:activeTab === tab}" class="tab-head">
+                    {{tab.script.name}}
+                    <div class="close-tab-btn" ng-click="removeTab(tab)"></div>
+                </li>
+            </ul>
+        </div>
+        <div id="tab-head-base"></div>
+        <div id="border-wrap">
+            <div ng-repeat="tab in tabs" contenteditable="true" ng-class="{active:activeTab === tab}" id="editor">
+                {{tab.script.code}}
+            </div>
+        </div>
+        <div id="result">
+            <div id="exec-params">
+                <span id="mem">113Kb</span>
+                &nbsp;<span style="color: #bbb;">|</span>&nbsp;
+                <span id="time">0.018982sec</span>
+            </div>
+            <div id="output"></div>
+        </div>
+    </div>
 </body>
 </html>

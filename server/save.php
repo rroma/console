@@ -9,7 +9,7 @@ $response = new JsonResponse();
 
 if (file_put_contents(CONSOLE_SCRIPTS, $request->getContent()) === false) {
     $data = array(
-        'success' => 'false',
+        'success' => false,
         'errors' => array(
             'Unable to save script.'
         ),
@@ -17,7 +17,7 @@ if (file_put_contents(CONSOLE_SCRIPTS, $request->getContent()) === false) {
     $status = 400;
 } else {
     $data = array(
-        'success' => 'true',
+        'success' => true,
     );
     $status = 200;
 }
