@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="en" ng-app="consoleApp">
+<head>
+    <meta charset="utf-8">
+    <title>Console App!</title>
+    <link rel="stylesheet" href="client/css/style.css">
+    <script src="client/js/angular.min.js"></script>
+    <script src="client/js/controllers.js"></script>
+</head>
+<body>
+<div ng-controller="ScriptListCtrl">
+    <ul ng-repeat="script in scripts">
+        <li>{{script.name }}: {{ script.code }}</li>
+    </ul>
+</div>
+</body>
+</html>

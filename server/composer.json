@@ -1,0 +1,19 @@
+{
+  "name": "rroma/console",
+  "description": "It's a web page which allows you to execute mixed html/php code and see it output.",
+  "require": {
+    "symfony/http-foundation": "2.6.*"
+  },
+  "authors": [
+    {
+      "name": "Romanov Roman",
+      "email": "r.romanov.mail@yandex.ru"
+    }
+  ],
+  "license": "MIT",
+  "autoload": {
+    "psr-0": {
+      "Console": []
+    }
+  }
+}
