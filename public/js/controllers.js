@@ -13,24 +13,38 @@ consoleApp.controller('ScriptListCtrl', ['$scope', '$http', function($scope, $ht
         $scope.newScriptWithTab();
     });
     $scope.save = function() {
-        if ($scope.scripts.indexOf($scope.activeTab) == -1) {
+        if ($scope.scripts.indexOf($scope.activeTab.script) == -1) {
             for (var i = 0; i < $scope.scripts.length; i++) {
                 if ($scope.scripts[i].name === $scope.activeTab.script.name) {
                     // TODO refactor
-                    alert('Script with name '+$scope.activeTab.script.name+'already exists!');
+                    alert('Script with name ' + $scope.activeTab.script.name + 'already exists!');
                     return;
                 }
+                $scope.scripts.push($scope.activeTab.script);
             }
-            $scope.scripts.push($scope.activeTab.script);
-            $http.post('server/save.php', $scope.scripts)
-                .success(function(data){
-                    alert('zal');
-                })
-                .error(function(data){
-                    alert('peth');
-                });
         }
+
+        $http.post('server/save.php', $scope.scripts)
+            .success(function (data) {
+                //TODO refactor
+                alert('Saved');
+            })
+            .error(function (data) {
+                //TODO refactor
+                alert('Error');
+            });
     }
+    $scope.execute = function() {
+        $http.post('server/execute.php', $scope.activeTab.script)
+            .success(function (data) {
+
+                var $output = angular.element(document.querySelector('#output'));
+                $output.text(data.result.output);
+            })
+            .error(function (data) {
+
+            });
+    };
     $scope.selectTab = function(tab) {
         $scope.activeTab = tab;
         $scope.pushToRecentTabs(tab);
