@@ -84,14 +84,49 @@
     border-bottom: 1px outset #eee;
     padding: 0 5px 5px;
 }
-#editor {
+#edit-table {
+    display: table;
+    width: 100%;
+}
+.row {
+    display: table-row;
+}
+.row>div {
+    vertical-align: top;
+}
+.editor {
     display: none;
+    table-layout: fixed;
     height: 200px;
+    /*background-color: #fff;*/
+    border: 2px inset #fff;
+}
+.editor.active {
+    display: table-cell;
+}
+#edit-h-split {
+    display: table-cell;
+    width: 7px;
+}
+#script-list {
+    display: table-cell;
+    width: 200px;
     background-color: #fff;
     border: 2px inset #fff;
 }
-#editor.active {
-    display: block;
+#script-list>ul {
+    list-style: none;
+    margin: 0;
+    padding: 3px;
+    font-size: 13px;
+}
+#script-list>ul>li {
+    padding: 2px 5px 1px;
+    cursor: pointer;
+}
+#script-list>ul>li:hover {
+    background-color: #efefef;
+    box-shadow: 0 0 8px 1px #a2e05b;
 }
 #result{
 }

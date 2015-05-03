@@ -5,12 +5,17 @@
     <title>Console App!</title>
     <link rel="stylesheet" href="public/css/style.css">
     <script src="public/js/angular.min.js"></script>
+    <script src="public/js/ace/ace.js"></script>
+    <script src="public/js/directives.js"></script>
     <script src="public/js/controllers.js"></script>
+
+
 </head>
-<body>
-    <div id="main" ng-controller="ScriptListCtrl">
+<body ng-controller="ScriptListCtrl">
+    <div id="main">
         <div id="top-panel">
             <input type="button" value="Execute"></button>
+            <input type="button" value="Save" ng-click="save()"></button>
         </div>
         <div id="tab-head-panel">
             <ul id="tabs" ng-dblclick="newScriptWithTab()">
@@ -22,8 +27,18 @@
         </div>
         <div id="tab-head-base"></div>
         <div id="border-wrap">
-            <div ng-repeat="tab in tabs" contenteditable="true" ng-class="{active:activeTab === tab}" id="editor">
-                {{tab.script.code}}
+            <div id="edit-table">
+                <div class="row">
+                    <div ng-repeat="tab in tabs" ng-model="tab.script.code" ui-ace="{ mode: 'php', theme: 'dreamweaver', showPrintMargin: false }" ng-class="{active:activeTab === tab}" class="editor">
+                        {{tab.script.code}}
+                    </div>
+                    <div id="edit-h-split"></div>
+                    <div id="script-list">
+                        <ul>
+                            <li ng-repeat="script in scripts" ng-click="openScript(script)">{{script.name}}</li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
         <div id="result">
