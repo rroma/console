@@ -20,8 +20,8 @@ consoleApp.controller('ScriptListCtrl', ['$scope', '$http', function($scope, $ht
                     alert('Script with name ' + $scope.activeTab.script.name + 'already exists!');
                     return;
                 }
-                $scope.scripts.push($scope.activeTab.script);
             }
+            $scope.scripts.push($scope.activeTab.script);
         }
 
         $http.post('server/save.php', $scope.scripts)
