@@ -1,7 +1,7 @@
 'use strict';
 
-var consoleApp = angular.module('consoleApp', ['ui.ace']);
-consoleApp.controller('ScriptListCtrl', ['$scope', '$http', function($scope, $http) {
+var consoleApp = angular.module('consoleApp', ['ui.ace', 'consoleDirectives']);
+consoleApp.controller('ScriptListCtrl', ['$scope', '$rootScope', '$http', function($scope, $rootScope, $http) {
     $http.get('scripts/scripts.json').success(function(data) {
         if (data === '') {
             data = [];
@@ -13,14 +13,19 @@ consoleApp.controller('ScriptListCtrl', ['$scope', '$http', function($scope, $ht
         $scope.newScriptWithTab();
     });
     $scope.save = function() {
-        if ($scope.scripts.indexOf($scope.activeTab.script) == -1) {
-            for (var i = 0; i < $scope.scripts.length; i++) {
-                if ($scope.scripts[i].name === $scope.activeTab.script.name) {
-                    // TODO refactor
-                    alert('Script with name ' + $scope.activeTab.script.name + 'already exists!');
-                    return;
-                }
+        // unique name validation
+        for (var i = 0; i < $scope.scripts.length; i++) {
+            if ($scope.scripts[i] === $scope.activeTab.script) {
+                continue;
             }
+            if ($scope.scripts[i].name === $scope.activeTab.script.name) {
+                $rootScope.$broadcast('duplicatedNameEvent', $scope.activeTab.script);
+                // TODO refactor
+                //alert('Script with name ' + $scope.activeTab.script.name + 'already exists!');
+                return;
+            }
+        }
+        if ($scope.scripts.indexOf($scope.activeTab.script) == -1) {
             $scope.scripts.push($scope.activeTab.script);
         }
 
@@ -102,4 +107,7 @@ consoleApp.controller('ScriptListCtrl', ['$scope', '$http', function($scope, $ht
     $scope.getNewScriptName = function() {
         return "New script";
     };
+    $scope.editName = function($event) {
+        $event.stopPropagation();
+    }
 }]);

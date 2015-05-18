@@ -16,11 +16,12 @@
         <div id="top-panel">
             <input type="button" value="Execute" ng-click="execute()"></button>
             <input type="button" value="Save" ng-click="save()"></button>
+            <div id="notify" style="float: right;"></div>
         </div>
         <div id="tab-head-panel">
             <ul id="tabs" ng-dblclick="newScriptWithTab()">
-                <li ng-repeat="tab in tabs" ng-click="selectTab(tab)" ng-class="{active:activeTab === tab}" class="tab-head">
-                    {{tab.script.name}}
+                <li ng-dblclick="editName($event)" ng-repeat="tab in tabs" ng-click="selectTab(tab)" ng-class="{active:activeTab === tab}" class="tab-head">
+                    <div class="text" console-bindable ng-model="tab.script.name">{{tab.script.name}}</div>
                     <div class="close-tab-btn" ng-click="removeTab(tab)"></div>
                 </li>
             </ul>

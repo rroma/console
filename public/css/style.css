@@ -16,6 +16,7 @@
     padding: 10px 30px;
     background-color: #eee;
     width: 100%;
+    z-index: 10;
 
     background-color: #eee;
     /*box-shadow: 0 0 7px rgba(0, 0, 0, 0.4);*/
@@ -59,6 +60,10 @@
     background: -o-linear-gradient(bottom, #eee, #f7f7f7); /* Opera 11.10+ */
     background: -ms-linear-gradient(bottom, #eee, #f7f7f7); /* IE10 */
     background: linear-gradient(bottom, #eee, #f7f7f7); /* CSS3 */
+}
+.tab-head .text:focus {
+    border: 2px inset #fff;
+    background-color: #fff;
 }
 .close-tab-btn {
     width: 14px;

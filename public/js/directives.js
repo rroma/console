@@ -1,5 +1,36 @@
 'use strict';
 
+angular.module('consoleDirectives', [])
+    .directive('consoleBindable', ['$rootScope', function($rootScope) {
+        $rootScope.$on('duplicatedNameEvent', function (name, script) {
+            //do stuff
+            alert('Script with name ' + script.name + ' already exists!');
+        });
+
+        return {
+            require: 'ngModel',
+            link: function(scope, element, attrs, ctrl) {
+                element.bind('blur', function() {
+                    element.removeAttr('contenteditable');
+                    scope.$apply(function() {
+                        ctrl.$setViewValue(element.text());
+                    });
+                });
+
+                element.bind('dblclick', function() {
+                    element.attr('contenteditable', 'true');
+                    element[0].focus();
+                });
+
+                ctrl.$render = function() {
+                    element.text(ctrl.$viewValue);
+                };
+
+                ctrl.$render();
+            }
+        };
+    }]);
+
 /**
  * Binds a ACE Editor widget
  */
