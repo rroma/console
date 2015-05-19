@@ -1,9 +1,8 @@
 #main {
-    font-family: "Trebuchet MS";
-    margin: 0 auto;
+    font-family: "Trebuchet MS", Helvetica, sans-serif;
+    margin: 0 auto 40px;
     width: 90%;
     padding: 50px 0px 20px 1px;
-
     background-color: #eee;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.4);
     border: 1px solid #aaa;
@@ -24,6 +23,29 @@
 }
 #top-head-panel>input[type="button"] {
     height: 25px;
+}
+#top-panel input,
+#top-panel img {
+    vertical-align: middle;
+}
+#top-panel .notify {
+    padding: 0 10px;
+    font-size: 13px;
+    color: #E40B0B;
+}
+.fade.ng-enter {
+    transition:0.1s linear all;
+    opacity:0;
+}
+.fade.ng-enter.ng-enter-active {
+    opacity:1;
+}
+.fade.ng-leave {
+    transition:0.5s linear all;
+    opacity:1;
+}
+.fade.ng-leave.ng-leave-active {
+    opacity:0;
 }
 #tabs {
     list-style: none;
@@ -134,16 +156,36 @@
     box-shadow: 0 0 8px 1px #a2e05b;
 }
 #result{
+    margin: 20px 0 5px;
+    font-size: 14px;
+    color: #444;
 }
 #exec-params{
-    padding: 20px 0 5px 8px;
-    color: #444;
+    padding: 0 0 0 8px;
+    margin: 3px 0 3px;
     font-size: 11px;
+    float: left;
+    display: inline-block;
+}
+#settings {
+    margin-top: -3px;
+    padding: 0 8px 0 0;
+    font-size: 11px;
+    float: right;
+    display: inline-block;
+}
+#settings>* {
+    vertical-align: middle;
 }
 #output{
+    font-family: "Lucida Console", Monaco, monospace;
+    font-size: 13px;
     border: 1px solid #ccc;
     border-left: none;
     border-right: none;
     background-color: #fff;
     padding: 10px;
+}
+.ace_editor {
+    font-size: 14px !important;
 }

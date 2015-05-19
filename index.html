@@ -5,18 +5,21 @@
     <title>Console App!</title>
     <link rel="stylesheet" href="public/css/style.css">
     <script src="public/js/angular.min.js"></script>
+    <script src="public/js/angular-animate.min.js"></script>
     <script src="public/js/ace/ace.js"></script>
     <script src="public/js/directives.js"></script>
+    <script src="public/js/filters.js"></script>
     <script src="public/js/controllers.js"></script>
-
-
 </head>
 <body ng-controller="ScriptListCtrl">
     <div id="main">
         <div id="top-panel">
             <input type="button" value="Execute" ng-click="execute()"></button>
             <input type="button" value="Save" ng-click="save()"></button>
-            <div id="notify" style="float: right;"></div>
+            <img ng-if="processing" width="25" src="public/img/wait.gif">
+            <div ng-controller="NotificationController" style="display: inline-block;">
+                <div ng-if="notification.mess" class="fade notify">{{notification.mess}}</div>
+            </div>
         </div>
         <div id="tab-head-panel">
             <ul id="tabs" ng-dblclick="newScriptWithTab()">
@@ -43,11 +46,16 @@
             </div>
         </div>
         <div id="result">
-            <div id="exec-params">
-                <span id="mem">113Kb</span>
+            <div ng-if="result" id="exec-params">
+                <span id="mem">{{ result.mem | bytes:[2] }}</span>
                 &nbsp;<span style="color: #bbb;">|</span>&nbsp;
-                <span id="time">0.018982sec</span>
+                <span id="time">{{ result.time }}</span>
             </div>
+            <div id="settings">
+                <input ng-model="HTMLOutput" id="output-strategy" type="checkbox">
+                <label for="output-strategy">Show output as HTML</label>
+            </div>
+            <div style="clear: both;"></div>
             <div id="output"></div>
         </div>
     </div>

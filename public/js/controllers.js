@@ -1,7 +1,23 @@
 'use strict';
 
-var consoleApp = angular.module('consoleApp', ['ui.ace', 'consoleDirectives']);
-consoleApp.controller('ScriptListCtrl', ['$scope', '$rootScope', '$http', function($scope, $rootScope, $http) {
+var consoleApp = angular.module('consoleApp', ['ui.ace', 'consoleDirectives', 'ngAnimate', 'consoleFilters']);
+consoleApp.factory('notify', ['$rootScope', function( $rootScope ) {
+    return {
+        mess: null,
+        show: function(item){
+            var self = this;
+            this.mess = item;
+            setTimeout(function(){
+                self.mess = null;
+                $rootScope.$apply()
+            }, 2000);
+        }
+    };
+}]);
+consoleApp.controller('NotificationController', ['$scope', 'notify', function($scope, notify){
+    $scope.notification = notify;
+}]);
+consoleApp.controller('ScriptListCtrl', ['$scope', 'notify', '$http', function($scope, notify, $http) {
     $http.get('scripts/scripts.json').success(function(data) {
         if (data === '') {
             data = [];
@@ -11,6 +27,9 @@ consoleApp.controller('ScriptListCtrl', ['$scope', '$rootScope', '$http', functi
         $scope.activeTab = null;
         $scope.recentTabs = [];
         $scope.newScriptWithTab();
+
+        $scope.HTMLOutput = false;
+        $scope.result = false;
     });
     $scope.save = function() {
         // unique name validation
@@ -19,9 +38,7 @@ consoleApp.controller('ScriptListCtrl', ['$scope', '$rootScope', '$http', functi
                 continue;
             }
             if ($scope.scripts[i].name === $scope.activeTab.script.name) {
-                $rootScope.$broadcast('duplicatedNameEvent', $scope.activeTab.script);
-                // TODO refactor
-                //alert('Script with name ' + $scope.activeTab.script.name + 'already exists!');
+                notify.show('Fail: script with name "'+$scope.activeTab.script.name+'" already exists');
                 return;
             }
         }
@@ -29,25 +46,30 @@ consoleApp.controller('ScriptListCtrl', ['$scope', '$rootScope', '$http', functi
             $scope.scripts.push($scope.activeTab.script);
         }
 
+        $scope.processing = true;
         $http.post('server/save.php', $scope.scripts)
             .success(function (data) {
-                //TODO refactor
-                alert('Saved');
+                $scope.processing = false;
+                notify.show('Success: saved');
             })
             .error(function (data) {
-                //TODO refactor
-                alert('Error');
+                notify.show('Fail: unable to save script');
+                $scope.processing = false;
             });
     }
     $scope.execute = function() {
         $http.post('server/execute.php', $scope.activeTab.script)
             .success(function (data) {
-
                 var $output = angular.element(document.querySelector('#output'));
-                $output.text(data.result.output);
+                $scope.result = data.result;
+                if ($scope.HTMLOutput) {
+                    $output.html(data.result.output);
+                } else {
+                    $output.text(data.result.output);
+                }
             })
             .error(function (data) {
-
+                notify.show('Fail: unable to execute script');
             });
     };
     $scope.selectTab = function(tab) {
