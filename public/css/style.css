@@ -31,7 +31,12 @@
 #top-panel .notify {
     padding: 0 10px;
     font-size: 13px;
+}
+#top-panel .notify.error {
     color: #E40B0B;
+}
+#top-panel .notify.success {
+    color: #07b22a;
 }
 .fade.ng-enter {
     transition:0.1s linear all;

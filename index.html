@@ -18,7 +18,7 @@
             <input type="button" value="Save" ng-click="save()"></button>
             <img ng-if="processing" width="25" src="public/img/wait.gif">
             <div ng-controller="NotificationController" style="display: inline-block;">
-                <div ng-if="notification.mess" class="fade notify">{{notification.mess}}</div>
+                <div ng-if="notification.mess" ng-class="notification.mess.type" class="fade notify">{{notification.mess.text}}</div>
             </div>
         </div>
         <div id="tab-head-panel">
@@ -47,9 +47,9 @@
         </div>
         <div id="result">
             <div ng-if="result" id="exec-params">
-                <span id="mem">{{ result.mem | bytes:[2] }}</span>
+                <span id="mem">{{ result.mem | bytes:2 }}</span>
                 &nbsp;<span style="color: #bbb;">|</span>&nbsp;
-                <span id="time">{{ result.time }}</span>
+                <span id="time">{{ result.time | number:3 }}&nbsp;sec</span>
             </div>
             <div id="settings">
                 <input ng-model="HTMLOutput" id="output-strategy" type="checkbox">

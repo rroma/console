@@ -3,10 +3,13 @@
 var consoleApp = angular.module('consoleApp', ['ui.ace', 'consoleDirectives', 'ngAnimate', 'consoleFilters']);
 consoleApp.factory('notify', ['$rootScope', function( $rootScope ) {
     return {
-        mess: null,
-        show: function(item){
+        mess: {},
+        show: function(item, type){
             var self = this;
-            this.mess = item;
+            this.mess = {
+                text: item,
+                type: type
+            };
             setTimeout(function(){
                 self.mess = null;
                 $rootScope.$apply()
@@ -38,7 +41,7 @@ consoleApp.controller('ScriptListCtrl', ['$scope', 'notify', '$http', function($
                 continue;
             }
             if ($scope.scripts[i].name === $scope.activeTab.script.name) {
-                notify.show('Fail: script with name "'+$scope.activeTab.script.name+'" already exists');
+                notify.show('Fail: script with name "'+$scope.activeTab.script.name+'" already exists', 'error');
                 return;
             }
         }
@@ -50,10 +53,10 @@ consoleApp.controller('ScriptListCtrl', ['$scope', 'notify', '$http', function($
         $http.post('server/save.php', $scope.scripts)
             .success(function (data) {
                 $scope.processing = false;
-                notify.show('Success: saved');
+                notify.show('Success: saved', 'success');
             })
             .error(function (data) {
-                notify.show('Fail: unable to save script');
+                notify.show('Fail: unable to save script', 'error');
                 $scope.processing = false;
             });
     }
@@ -69,7 +72,7 @@ consoleApp.controller('ScriptListCtrl', ['$scope', 'notify', '$http', function($
                 }
             })
             .error(function (data) {
-                notify.show('Fail: unable to execute script');
+                notify.show('Fail: unable to execute script', 'error');
             });
     };
     $scope.selectTab = function(tab) {
@@ -89,14 +92,14 @@ consoleApp.controller('ScriptListCtrl', ['$scope', 'notify', '$http', function($
     $scope.removeTab = function(tab) {
         var idx = $scope.tabs.indexOf(tab);
         if (idx > -1) {
+            $scope.removeFromRecentTabs(tab);
+            var recent = $scope.recentTabs.pop();
+            if (recent) {
+                $scope.selectTab(recent);
+            } else {
+                $scope.newScriptWithTab();
+            }
             $scope.tabs.splice(idx, 1);
-        }
-        $scope.removeFromRecentTabs(tab);
-        var recent = $scope.recentTabs.pop();
-        if (recent) {
-            $scope.selectTab(recent);
-        } else {
-            $scope.newScriptWithTab();
         }
     }
     $scope.createScript = function() {
