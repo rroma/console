@@ -1,12 +1,7 @@
 'use strict';
 
 angular.module('consoleDirectives', [])
-    .directive('consoleBindable', ['$rootScope', function($rootScope) {
-        $rootScope.$on('duplicatedNameEvent', function (name, script) {
-            //do stuff
-            alert('Script with name ' + script.name + ' already exists!');
-        });
-
+    .directive('consoleBindable', [function() {
         return {
             require: 'ngModel',
             link: function(scope, element, attrs, ctrl) {
@@ -29,10 +24,41 @@ angular.module('consoleDirectives', [])
                 ctrl.$render();
             }
         };
+    }])
+    .directive('consoleSizeable', [function() {
+        return {
+            link: function(scope, element, attrs) {
+                var dragging;
+                element.bind('mousedown', function(e) {
+                    dragging = {
+                        isStarted: true,
+                        startHeight: parseInt(element[0].offsetHeight),
+                        x: e.clientX,
+                        y: e.clientY
+                    };
+                });
+                angular.element(document).bind('mouseup', function(e) {
+                    dragging.isStarted = false;
+                });
+                angular.element(document).bind('mousemove', function(e) {
+                    if (dragging.isStarted) {
+                        var dX = e.clientX - dragging.x;
+                        var dY = e.clientY - dragging.y;
+                        var newHeight = dragging.startHeight + dY;
+                        newHeight = newHeight >= 130 ? newHeight : 130;
+                        element.css('height', newHeight+'px');
+                    }
+                });
+            }
+        };
     }]);
 
 /**
  * Binds a ACE Editor widget
+ *
+ * @author https://github.com/angular-ui/ui-ace/graphs/contributors
+ * @licence MIT
+ * @see http://angular-ui.github.com
  */
 angular.module('ui.ace', [])
     .constant('uiAceConfig', {})

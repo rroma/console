@@ -1,3 +1,5 @@
+'use strict';
+
 angular.module('consoleFilters', []).filter('bytes', function() {
     return function(bytes, precision) {
         if (isNaN(parseFloat(bytes)) || !isFinite(bytes)) return '-';
