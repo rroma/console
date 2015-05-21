@@ -1,63 +1,65 @@
 <!doctype html>
 <html lang="en" ng-app="consoleApp">
-<head>
-    <meta charset="utf-8">
-    <title>Console App!</title>
-    <link rel="stylesheet" href="public/css/style.css">
-    <script src="public/js/angular.min.js"></script>
-    <script src="public/js/angular-animate.min.js"></script>
-    <script src="public/js/ace/ace.js"></script>
-    <script src="public/js/directives.js"></script>
-    <script src="public/js/filters.js"></script>
-    <script src="public/js/controllers.js"></script>
-</head>
-<body ng-controller="ScriptListCtrl">
-    <div id="main">
-        <div id="top-panel">
-            <input type="button" value="Execute" ng-click="execute()"></button>
-            <input type="button" value="Save" ng-click="save()"></button>
-            <img ng-if="processing" width="25" src="public/img/wait.gif">
-            <div ng-controller="NotificationController" style="display: inline-block;">
-                <div ng-if="notification.mess" ng-class="notification.mess.type" class="fade notify">{{notification.mess.text}}</div>
-            </div>
-        </div>
-        <div id="tab-head-panel">
-            <ul id="tabs" ng-dblclick="newScriptWithTab()">
-                <li ng-dblclick="editName($event)" ng-repeat="tab in tabs" ng-click="selectTab(tab)" ng-class="{active:activeTab === tab}" class="tab-head">
-                    <div class="text" console-bindable ng-model="tab.script.name">{{tab.script.name}}</div>
-                    <div class="close-tab-btn" ng-click="removeTab(tab)"></div>
-                </li>
-            </ul>
-        </div>
-        <div id="tab-head-base"></div>
-        <div id="border-wrap">
-            <div id="edit-table">
-                <div class="row">
-                    <div ng-repeat="tab in tabs" ng-model="tab.script.code" ui-ace="{ mode: 'php', theme: 'dreamweaver', showPrintMargin: false }" ng-class="{active:activeTab === tab}" class="editor">
-                        {{tab.script.code}}
-                    </div>
-                    <div id="edit-h-split"></div>
-                    <div id="script-list">
-                        <ul>
-                            <li ng-repeat="script in scripts" ng-click="openScript(script)">{{script.name}}</li>
-                        </ul>
-                    </div>
+    <head>
+        <meta charset="utf-8">
+        <title>Console App!</title>
+        <link rel="stylesheet" href="public/css/style.css">
+        <link rel="icon" type="image/png" href="public/img/favicon.ico">
+        <script src="public/js/angular.min.js"></script>
+        <script src="public/js/angular-animate.min.js"></script>
+        <script src="public/js/ace/ace.js"></script>
+        <script src="public/js/directives.js"></script>
+        <script src="public/js/filters.js"></script>
+        <script src="public/js/controllers.js"></script>
+    </head>
+    <body ng-controller="ScriptListCtrl">
+        <div id="main">
+            <div id="top-panel">
+                <input type="button" value="Execute" ng-click="execute()"></button>
+                <input type="button" value="Save" ng-click="save()"></button>
+                <img ng-if="processing" width="25" alt="waiting" src="public/img/wait.gif">
+                <div ng-controller="NotificationController" id="notify-wrap">
+                    <div ng-if="notification.mess" ng-class="notification.mess.type" class="fade notify">{{notification.mess.text}}</div>
                 </div>
             </div>
-        </div>
-        <div id="result">
-            <div ng-if="result" id="exec-params">
-                <span id="mem">{{ result.mem | bytes:2 }}</span>
-                &nbsp;<span style="color: #bbb;">|</span>&nbsp;
-                <span id="time">{{ result.time | number:3 }}&nbsp;sec</span>
+            <div id="tab-head-panel">
+                <ul id="tabs" ng-dblclick="newScriptWithTab()">
+                    <li ng-dblclick="editName($event)" ng-repeat="tab in tabs" ng-click="selectTab(tab)" ng-class="{active:activeTab === tab}" class="tab-head">
+                        <div class="text" console-bindable ng-model="tab.script.name">{{tab.script.name}}</div>
+                        <div class="close-tab-btn" ng-click="removeTab(tab)"></div>
+                    </li>
+                </ul>
             </div>
-            <div id="settings">
-                <input ng-model="HTMLOutput" id="output-strategy" type="checkbox">
-                <label for="output-strategy">Show output as HTML</label>
+            <div id="tab-head-base"></div>
+            <div id="border-wrap">
+                <div id="edit-table">
+                    <div class="row">
+                        <div ng-repeat="tab in tabs" ng-model="tab.script.code" ui-ace="{ mode: 'php', theme: 'dreamweaver', showPrintMargin: false }" ng-class="{active:activeTab === tab}" class="editor">
+                            {{tab.script.code}}
+                        </div>
+                        <div id="edit-h-split"></div>
+                        <div id="script-list">
+                            <ul>
+                                <li ng-repeat="script in scripts" ng-click="openScript(script)">{{script.name}}</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div style="" console-sizeable class="v-resizer"></div>
             </div>
-            <div style="clear: both;"></div>
-            <div id="output"></div>
+            <div id="result">
+                <div ng-if="result" id="exec-params">
+                    <span id="mem">{{ result.mem | bytes:2 }}</span>
+                    &nbsp;<span class="hr"></span>&nbsp;
+                    <span id="time">{{ result.time | number:3 }}&nbsp;sec</span>
+                </div>
+                <div id="settings">
+                    <input ng-model="HTMLOutput" id="output-strategy" type="checkbox">
+                    <label for="output-strategy">Show output as HTML</label>
+                </div>
+                <div class="clear"></div>
+                <div id="output"></div>
+            </div>
         </div>
-    </div>
-</body>
+    </body>
 </html>

@@ -117,8 +117,12 @@
 }
 #border-wrap {
     border-bottom: 1px outset #eee;
-    padding: 0 5px 5px;
+    padding: 0 5px 7px;
     height: 250px;
+}
+.v-resizer {
+    height: 7px;
+    cursor: ns-resize;
 }
 #edit-table {
     display: table;
@@ -152,7 +156,7 @@
 #script-list>ul {
     list-style: none;
     margin: 0;
-    padding: 3px;
+    padding: 1px;
     font-size: 13px;
 }
 #script-list>ul>li {
@@ -160,8 +164,9 @@
     cursor: pointer;
 }
 #script-list>ul>li:hover {
-    background-color: #efefef;
-    box-shadow: 0 0 8px 1px #a2e05b;
+    border: 1px solid #d8d33b;
+    background-color: #ecea9e;
+    margin: -1px;
 }
 #result{
     margin: 20px 0 5px;

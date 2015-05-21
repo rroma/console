@@ -32,7 +32,7 @@ angular.module('consoleDirectives', [])
                 element.bind('mousedown', function(e) {
                     dragging = {
                         isStarted: true,
-                        startHeight: parseInt(element[0].offsetHeight),
+                        startHeight: parseInt(element.parent()[0].offsetHeight),
                         x: e.clientX,
                         y: e.clientY
                     };
@@ -46,7 +46,7 @@ angular.module('consoleDirectives', [])
                         var dY = e.clientY - dragging.y;
                         var newHeight = dragging.startHeight + dY;
                         newHeight = newHeight >= 130 ? newHeight : 130;
-                        element.css('height', newHeight+'px');
+                        element.parent().css('height', newHeight+'px');
                     }
                 });
             }
