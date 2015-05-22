@@ -30,7 +30,7 @@ $mem = (float) file_get_contents(CONSOLE_EXEC_MEM);
 $time = (float) file_get_contents(CONSOLE_EXEC_TIME);
 $output = preg_replace(
     sprintf('@%s@', preg_quote(realpath(CONSOLE_EXEC_CODE))),
-    "«{$script->name}»",
+    "\"{$script->name}\"",
     $output
 );
 

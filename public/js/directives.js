@@ -28,14 +28,17 @@ angular.module('consoleDirectives', [])
     .directive('consoleSizeable', [function() {
         return {
             link: function(scope, element, attrs) {
-                var dragging;
+                var dragging = {
+                    isStarted: false,
+                    startHeight: 0,
+                    x: 0,
+                    y: 0
+                };
                 element.bind('mousedown', function(e) {
-                    dragging = {
-                        isStarted: true,
-                        startHeight: parseInt(element.parent()[0].offsetHeight),
-                        x: e.clientX,
-                        y: e.clientY
-                    };
+                    dragging.isStarted = true;
+                    dragging.startHeight = parseInt(element.parent()[0].offsetHeight);
+                    dragging.x = e.clientX;
+                    dragging.y = e.clientY;
                 });
                 angular.element(document).bind('mouseup', function(e) {
                     dragging.isStarted = false;
