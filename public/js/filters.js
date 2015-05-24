@@ -1,5 +1,8 @@
 'use strict';
 
+/**
+ * @author https://gist.github.com/thomseddon
+ */
 angular.module('consoleFilters', []).filter('bytes', function() {
     return function(bytes, precision) {
         if (isNaN(parseFloat(bytes)) || !isFinite(bytes)) return '-';

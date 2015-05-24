@@ -153,6 +153,19 @@
     background-color: #fff;
     border: 2px inset #fff;
 }
+#list-control {
+    background-color: #EEE;
+    border-bottom: 1px solid #CCC;
+    line-height: 11px;
+    padding: 0 6px 3px;
+    text-align: right;
+}
+#list-control>span {
+    font-size: 11.5px;
+    text-decoration: underline;
+    color:#0082C9;
+    cursor: pointer;
+}
 #script-list>ul {
     list-style: none;
     margin: 0;
@@ -160,13 +173,22 @@
     font-size: 13px;
 }
 #script-list>ul>li {
-    padding: 2px 5px 1px;
+    padding: 2px 25px 1px 5px;
     cursor: pointer;
+    position: relative;
+    word-wrap: break-word;
+    word-break: break-all;
 }
 #script-list>ul>li:hover {
-    border: 1px solid #d8d33b;
-    background-color: #ecea9e;
-    margin: -1px;
+    background-color: #f0f5f5;
+}
+#script-list>ul>li.active {
+    background-color: #fffcb5;
+}
+#script-list>ul>li>input[type=checkbox] {
+    position: absolute;
+    right: 3px;
+    top: 0;
 }
 #result{
     margin: 20px 0 5px;

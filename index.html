@@ -15,8 +15,8 @@
     <body ng-controller="ScriptListCtrl">
         <div id="main">
             <div id="top-panel">
-                <input type="button" value="Execute" ng-click="execute()"></button>
-                <input type="button" value="Save" ng-click="save()"></button>
+                <input type="button" value="Execute" ng-click="execute()" ng-disabled="processing">
+                <input type="button" value="Save" ng-click="save()" ng-disabled="processing">
                 <img ng-if="processing" width="25" alt="waiting" src="public/img/wait.gif">
                 <div ng-controller="NotificationController" id="notify-wrap">
                     <div ng-if="notification.mess" ng-class="notification.mess.type" class="fade notify">{{notification.mess.text}}</div>
@@ -39,8 +39,14 @@
                         </div>
                         <div id="edit-h-split"></div>
                         <div id="script-list">
+                            <div id="list-control">
+                                <span ng-click="delete()">delete</span>
+                            </div>
                             <ul>
-                                <li ng-repeat="script in scripts" ng-click="openScript(script)">{{script.name}}</li>
+                                <li ng-class="{active:activeTab.script === script}" ng-repeat="script in scripts" ng-click="openScript(script)">
+                                    <span>{{script.name}}</span>
+                                    <input ng-model="scriptsToDelete[script.id]" ng-false-value="undefined" ng-click="$event.stopPropagation()" type="checkbox">
+                                </li>
                             </ul>
                         </div>
                     </div>

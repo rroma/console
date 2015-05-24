@@ -11,7 +11,7 @@ $dataToSave = json_decode($request->getContent());
 $scripts = json_decode(file_get_contents(CONSOLE_SCRIPTS));
 
 $update = false;
-foreach ($scripts as $script) {
+foreach ($scripts as &$script) {
     if ($script->id == $dataToSave->id) {
         $script = $dataToSave;
         $update = true;

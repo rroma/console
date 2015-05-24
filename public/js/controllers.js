@@ -36,6 +36,7 @@ consoleApp.controller('ScriptListCtrl', ['$scope', 'notify', '$http', 'uuid', fu
             data = [];
         }
         $scope.scripts = data;
+        $scope.scriptsToDelete = [];
         $scope.tabs = [];
         $scope.activeTab = null;
         $scope.recentTabs = [];
@@ -84,8 +85,10 @@ consoleApp.controller('ScriptListCtrl', ['$scope', 'notify', '$http', 'uuid', fu
             });
     }
     $scope.execute = function() {
+        $scope.processing = true;
         $http.post('server/execute.php', $scope.activeTab.script)
             .success(function (data) {
+                $scope.processing = false;
                 var $output = angular.element(document.querySelector('#output'));
                 $scope.result = data.result;
                 if ($scope.HTMLOutput) {
@@ -95,23 +98,57 @@ consoleApp.controller('ScriptListCtrl', ['$scope', 'notify', '$http', 'uuid', fu
                 }
             })
             .error(function (data) {
+                $scope.processing = false;
                 notify.show('Fail: unable to execute script', 'error');
             });
     };
     $scope.selectTab = function(tab) {
         $scope.activeTab = tab;
         $scope.pushToRecentTabs(tab);
-    }
+    };
     $scope.pushToRecentTabs = function(tab) {
         $scope.removeFromRecentTabs(tab);
         $scope.recentTabs.push(tab);
-    }
+    };
     $scope.removeFromRecentTabs = function(tab) {
         var idx = $scope.recentTabs.indexOf(tab);
         if (idx > -1) {
             $scope.recentTabs.splice(idx, 1);
         }
-    }
+    };
+    $scope.delete = function () {
+        var params = [];
+        var ids = [];
+        var idx = 0;
+        for (var id in $scope.scriptsToDelete) {
+            params.push('ids['+idx+']='+id);
+            ids.push(id);
+            idx++;
+        }
+
+        $http.delete('server/delete.php?'+params.join('&'))
+            .success(function() {
+                var itemsToDelete = [];
+                $scope.scripts.forEach(function(item) {
+                    if (ids.indexOf(item.id) !== -1) {
+                        $scope.tabs.forEach(function(tab){
+                            if(tab.script === item) {
+                                $scope.removeTab(tab);
+                            }
+                        });
+                        itemsToDelete.push(item);
+                    }
+                });
+                itemsToDelete.forEach(function(item){
+                    $scope.scripts.splice($scope.scripts.indexOf(item), 1);
+                });
+                $scope.scriptsToDelete = [];
+                notify.show('Success: scripts deleted', 'success');
+            })
+            .error(function() {
+                notify.show('Fail: unable to delete scripts', 'error');
+            });
+    };
     $scope.removeTab = function(tab) {
         var idx = $scope.tabs.indexOf(tab);
         if (idx > -1) {
@@ -124,20 +161,20 @@ consoleApp.controller('ScriptListCtrl', ['$scope', 'notify', '$http', 'uuid', fu
             }
             $scope.tabs.splice(idx, 1);
         }
-    }
+    };
     $scope.createScript = function() {
         return {
             "id": "",
             "name": $scope.getNewScriptName(),
-            "code": ""
+            "code": "<?php\n\n\n\n\n\n\n?>"
         };
-    }
+    };
     $scope.newScriptWithTab = function() {
         var script = $scope.createScript();
         var tab = { "script": script };
         $scope.tabs.push(tab);
         $scope.selectTab(tab);
-    }
+    };
     $scope.openScript = function(script) {
         var tab = null;
         $scope.tabs.forEach(function(item) {
@@ -152,11 +189,11 @@ consoleApp.controller('ScriptListCtrl', ['$scope', 'notify', '$http', 'uuid', fu
         var tab = { "script": script };
         $scope.tabs.push(tab);
         $scope.selectTab(tab);
-    }
+    };
     $scope.getNewScriptName = function() {
         return "New script";
     };
     $scope.editName = function($event) {
         $event.stopPropagation();
-    }
+    };
 }]);
