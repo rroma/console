@@ -88,6 +88,11 @@
     background: -o-linear-gradient(bottom, #ccc, #ddd); /* Opera 11.10+ */
     background: -ms-linear-gradient(bottom, #ccc, #ddd); /* IE10 */
     background: linear-gradient(bottom, #ccc, #ddd);
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
+    user-select: none;
 }
 .tab-head.active {
     margin-bottom: -1px;
@@ -102,6 +107,12 @@
 .tab-head .text:focus {
     border: 2px inset #fff;
     background-color: #fff;
+
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
+    -o-user-select: text;
+    user-select: text;
 }
 .close-tab-btn {
     width: 14px;
