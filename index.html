@@ -17,8 +17,8 @@
             <div id="top-panel">
                 <input type="button" value="Execute" ng-click="execute()" ng-disabled="processing">
                 <input type="button" value="Save" ng-click="save()" ng-disabled="processing">
-                <img ng-if="processing" width="25" alt="waiting" src="public/img/wait.gif">
                 <div ng-controller="NotificationController" id="notify-wrap">
+                    <img id="load-ind" ng-if="processing" width="20" alt="waiting" src="public/img/wait.gif">
                     <div ng-if="notification.mess" ng-class="notification.mess.type" class="fade notify">{{notification.mess.text}}</div>
                 </div>
             </div>

@@ -28,8 +28,13 @@
 #top-panel img {
     vertical-align: middle;
 }
+#top-panel #load-ind {
+    position: absolute;
+ 
+}
 #top-panel .notify {
-    padding: 0 10px;
+    position: absolute;
+    left: 30px;
     font-size: 13px;
 }
 #top-panel .notify.error {
@@ -39,7 +44,10 @@
     color: #07b22a;
 }
 #notify-wrap {
+    position: relative;
     display: inline-block;
+    width: 50%;
+    height: 14px;
 }
 .fade.ng-enter {
     transition:0.1s linear all;

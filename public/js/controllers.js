@@ -36,7 +36,7 @@ consoleApp.controller('ScriptListCtrl', ['$scope', 'notify', '$http', 'uuid', fu
             data = [];
         }
         $scope.scripts = data;
-        $scope.scriptsToDelete = [];
+        $scope.scriptsToDelete = {};
         $scope.tabs = [];
         $scope.activeTab = null;
         $scope.recentTabs = [];
@@ -117,6 +117,9 @@ consoleApp.controller('ScriptListCtrl', ['$scope', 'notify', '$http', 'uuid', fu
         }
     };
     $scope.delete = function () {
+        if (Object.keys($scope.scriptsToDelete).length === 0) {
+            return;
+        }
         var params = [];
         var ids = [];
         var idx = 0;
